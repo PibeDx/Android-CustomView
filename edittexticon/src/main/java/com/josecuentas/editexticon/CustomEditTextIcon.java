@@ -115,7 +115,7 @@ public class CustomEditTextIcon extends RelativeLayout
 
     private void events() {
         mImageView.setOnClickListener(this);
-        //setOnFocusChangeListener(this);
+        mEditText.setOnFocusChangeListener(this);
         OnTouchListener exitSoftKeyBoard = new OnTouchListener() {
 
             @Override public boolean onTouch(View v, MotionEvent event) {
@@ -141,7 +141,7 @@ public class CustomEditTextIcon extends RelativeLayout
         int i = v.getId();
 
         if (i == R.id.imageView) {
-            mImageView.setVisibility(View.GONE);
+            mImageView.setVisibility(View.INVISIBLE);
             mRlaContainer.setVisibility(View.VISIBLE);
             mEditText.requestFocus();
             InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -224,6 +224,16 @@ public class CustomEditTextIcon extends RelativeLayout
     }
 
     @Override public void onFocusChange(View v, boolean hasFocus) {
+        if (!hasFocus) {
+            if (mEditText.getText().toString().isEmpty()) {
+                mImageView.setVisibility(View.VISIBLE);
+                mRlaContainer.setVisibility(View.INVISIBLE);
+            }
+        }
+    }
+
+    /*@Override public void onFocusChange(View v, boolean hasFocus) {
+        Log.d(TAG, "onFocusChange() called with: v = [" + v + "], hasFocus = [" + hasFocus + "]");
         InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (hasFocus) {
             //imm.showSoftInput(v, 0);
@@ -231,5 +241,5 @@ public class CustomEditTextIcon extends RelativeLayout
         } else {
             imm.hideSoftInputFromWindow(getWindowToken(), 0);
         }
-    }
+    }*/
 }
